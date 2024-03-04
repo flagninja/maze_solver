@@ -65,6 +65,10 @@ class Cell:
 
 def main():
     win = Window(800, 600)
+    testbed(win)
+    win.wait_for_close()
+
+def testbed(win):
     line1 = Line(Point(20,20),Point(50,50))
     line2 = Line(Point(100,100),Point(30,100))
     win.draw_line(line1, "red")
@@ -77,6 +81,5 @@ def main():
     cell3.has_left = False
     cell2.draw()
     cell3.draw()
-    win.wait_for_close()
 
 main()
