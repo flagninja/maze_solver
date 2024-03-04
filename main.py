@@ -40,12 +40,43 @@ class Line:
         canvas.create_line(self.p1.x, self.p1.y, self.p2.x, self.p2.y, fill = fill_color, width = 2)
         canvas.pack(fill=BOTH, expand=1)
 
+class Cell:
+    def __init__(self, p1, p2, win):
+        # p1 is top left, p2 is bottom right
+        self.has_left = True
+        self.has_right = True
+        self.has_top = True
+        self.has_bot = True
+        self.__x1 = p1.x
+        self.__y1 = p1.y
+        self.__x2 = p2.x
+        self.__y2 = p2.y
+        self.__win = win
+
+    def draw(self):
+        if self.has_left:
+            self.__win.draw_line(Line(Point(self.__x1,self.__y1),Point(self.__x1,self.__y2)))
+        if self.has_right:
+            self.__win.draw_line(Line(Point(self.__x2,self.__y1),Point(self.__x2,self.__y2)))
+        if self.has_top:
+            self.__win.draw_line(Line(Point(self.__x1,self.__y1),Point(self.__x2,self.__y1)))
+        if self.has_bot:
+            self.__win.draw_line(Line(Point(self.__x1,self.__y2),Point(self.__x2,self.__y2)))
+
 def main():
     win = Window(800, 600)
     line1 = Line(Point(20,20),Point(50,50))
     line2 = Line(Point(100,100),Point(30,100))
     win.draw_line(line1, "red")
     win.draw_line(line2, "green")
+    cell1 = Cell(Point(150,150),Point(160,160),win)
+    cell1.draw()
+    cell2 = Cell(Point(170,170),Point(180,180),win)
+    cell2.has_right = False
+    cell3 = Cell(Point(180,170),Point(190,180),win)
+    cell3.has_left = False
+    cell2.draw()
+    cell3.draw()
     win.wait_for_close()
 
 main()
