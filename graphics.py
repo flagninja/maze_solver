@@ -52,6 +52,7 @@ class Cell:
         self.__x2 = p2.x
         self.__y2 = p2.y
         self.__win = win
+        self.visited=False
 
     def draw(self):
         if self.has_left:

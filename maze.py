@@ -1,5 +1,6 @@
 from graphics import *
 import time
+import random
 
 class Maze:
     def __init__(
@@ -10,7 +11,8 @@ class Maze:
             num_cols,
             cell_size_x,
             cell_size_y,
-            win=None
+            win=None,
+            seed=None
         ):
         self.x1 = x1
         self.y1 = y1
@@ -19,6 +21,8 @@ class Maze:
         self.cell_size_x = cell_size_x
         self.cell_size_y = cell_size_y
         self.win = win
+        if seed is not None:
+            random.seed(seed)
         self._cells = []
         self._create_cells()
         
@@ -48,16 +52,72 @@ class Maze:
         except Exception as e:
             print(e)
         self._break_entrance_and_exit()
+        self._break_walls_r(0,0)
     
     def _animate(self):
         self.win.redraw()
-        time.sleep(.05)
+        time.sleep(.01)
 
     def _break_entrance_and_exit(self):
         self._cells[0][0].has_left = False
         self._cells[-1][-1].has_right = False
         try:
             self._cells[0][0].draw()
+            self._animate()
             self._cells[-1][-1].draw()
+            self._animate()
         except Exception as e:
             print(e)
+
+    def _break_walls_r(self,i,j):
+        current = self._cells[i][j]
+        current.visited = True
+        while True:
+            can_visit = []
+            for cell in self._get_adjacent(i,j):
+                if not self._cells[cell[0]][cell[1]].visited:
+                    can_visit.append(cell)
+            if can_visit == []:
+                current.draw()
+                self._animate()
+                return
+            next_cell = random.choice(can_visit)
+            if next_cell[2] == "r":
+                current.has_right = False
+                self._cells[next_cell[0]][next_cell[1]].has_left = False
+                self._break_walls_r(next_cell[0],next_cell[1])
+            elif next_cell[2] == "l":
+                current.has_left = False
+                self._cells[next_cell[0]][next_cell[1]].has_right = False
+                self._break_walls_r(next_cell[0],next_cell[1])
+            elif next_cell[2] == "u":
+                current.has_top = False
+                self._cells[next_cell[0]][next_cell[1]].has_bot = False
+                self._break_walls_r(next_cell[0],next_cell[1])
+            elif next_cell[2] == "d":
+                current.has_bot = False
+                self._cells[next_cell[0]][next_cell[1]].has_top = False
+                self._break_walls_r(next_cell[0],next_cell[1])
+            else:
+                raise Exception("Next cell during maze drawing has invalid directionality")
+            
+            
+
+
+    def _get_adjacent(self,i,j):
+        adjacent = []
+        if i == 0:
+            adjacent.append((i+1,j,"r"))
+        elif i == len(self._cells)-1:
+            adjacent.append((i-1,j,"l"))
+        else:
+            adjacent.append((i-1,j,"l"))
+            adjacent.append((i+1,j,"r"))
+        if j == 0:
+            adjacent.append((i,j+1,"d"))
+        elif j == len(self._cells[i])-1:
+            adjacent.append((i,j-1,"u"))
+        else:
+            adjacent.append((i,j-1,"u"))
+            adjacent.append((i,j+1,"d"))
+        return adjacent
