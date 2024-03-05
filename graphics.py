@@ -56,12 +56,20 @@ class Cell:
     def draw(self):
         if self.has_left:
             self.__win.draw_line(Line(Point(self.__x1,self.__y1),Point(self.__x1,self.__y2)))
+        else:
+            self.__win.draw_line(Line(Point(self.__x1,self.__y1),Point(self.__x1,self.__y2)),fill_color="white")
         if self.has_right:
             self.__win.draw_line(Line(Point(self.__x2,self.__y1),Point(self.__x2,self.__y2)))
+        else:
+            self.__win.draw_line(Line(Point(self.__x2,self.__y1),Point(self.__x2,self.__y2)),fill_color="white")
         if self.has_top:
             self.__win.draw_line(Line(Point(self.__x1,self.__y1),Point(self.__x2,self.__y1)))
+        else:
+            self.__win.draw_line(Line(Point(self.__x1,self.__y1),Point(self.__x2,self.__y1)),fill_color="white")
         if self.has_bot:
             self.__win.draw_line(Line(Point(self.__x1,self.__y2),Point(self.__x2,self.__y2)))
+        else:
+            self.__win.draw_line(Line(Point(self.__x1,self.__y2),Point(self.__x2,self.__y2)),fill_color="white")
 
     def get_center(self):
         return Point((self.__x1+self.__x2)//2,(self.__y1+self.__y2)//2)

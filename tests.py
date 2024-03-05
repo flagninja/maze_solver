@@ -29,6 +29,13 @@ class Tests(unittest.TestCase):
             num_rows
         )
 
+    def test_entrance_exit(self):
+        num_cols = random.randint(1,50)
+        num_rows = random.randint(1,50)
+        m1 = Maze(0,0,num_rows,num_cols, 10,10)
+        self.assertFalse(m1._cells[0][0].has_left)
+        self.assertFalse(m1._cells[-1][-1].has_right)
+
 random.seed()
 if __name__=="__main__":
     unittest.main()

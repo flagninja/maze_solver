@@ -47,7 +47,17 @@ class Maze:
                     self._animate()
         except Exception as e:
             print(e)
+        self._break_entrance_and_exit()
     
     def _animate(self):
         self.win.redraw()
         time.sleep(.05)
+
+    def _break_entrance_and_exit(self):
+        self._cells[0][0].has_left = False
+        self._cells[-1][-1].has_right = False
+        try:
+            self._cells[0][0].draw()
+            self._cells[-1][-1].draw()
+        except Exception as e:
+            print(e)
