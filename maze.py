@@ -53,6 +53,7 @@ class Maze:
             print(e)
         self._break_entrance_and_exit()
         self._break_walls_r(0,0)
+        self._reset_cells_visited()
     
     def _animate(self):
         self.win.redraw()
@@ -78,8 +79,11 @@ class Maze:
                 if not self._cells[cell[0]][cell[1]].visited:
                     can_visit.append(cell)
             if can_visit == []:
-                current.draw()
-                self._animate()
+                try:
+                    current.draw()
+                    self._animate()
+                except Exception as e:
+                    print(e)
                 return
             next_cell = random.choice(can_visit)
             if next_cell[2] == "r":
@@ -101,8 +105,10 @@ class Maze:
             else:
                 raise Exception("Next cell during maze drawing has invalid directionality")
             
-            
-
+    def _reset_cells_visited(self):
+        for x in self._cells:
+            for y in x:
+                y.visited = False
 
     def _get_adjacent(self,i,j):
         adjacent = []

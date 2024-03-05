@@ -36,6 +36,14 @@ class Tests(unittest.TestCase):
         self.assertFalse(m1._cells[0][0].has_left)
         self.assertFalse(m1._cells[-1][-1].has_right)
 
+    def test_cell_reset(self):
+        num_cols = 5
+        num_rows = 5
+        m1 = Maze(0,0,num_rows,num_cols,10,10)
+        for column in m1._cells:
+            for cell in column:
+                self.assertFalse(cell.visited)
+
 random.seed()
 if __name__=="__main__":
     unittest.main()
