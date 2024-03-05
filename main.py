@@ -1,6 +1,5 @@
 from graphics import *
-from maze import Maze
-
+from maze import *
 
 
 def main():
@@ -9,7 +8,7 @@ def main():
     win.wait_for_close()
 
 def testbed(win):
-    line1 = Line(Point(20,20),Point(50,50))
+    """ line1 = Line(Point(20,20),Point(50,50))
     line2 = Line(Point(100,100),Point(30,100))
     win.draw_line(line1, "red")
     win.draw_line(line2, "green")
@@ -23,6 +22,6 @@ def testbed(win):
     cell3.draw()
     cell1.draw_move(cell2)
     cell2.draw_move(cell3,True)
-    cell3.draw_move(cell1)
-
+    cell3.draw_move(cell1) """
+    maze = Maze(10,10,20,20,20,20,win)
 main()
