@@ -41,7 +41,7 @@ class Line:
         canvas.pack(fill=BOTH, expand=1)
 
 class Cell:
-    def __init__(self, p1, p2, win):
+    def __init__(self, p1, p2, win=None):
         # p1 is top left, p2 is bottom right
         self.has_left = True
         self.has_right = True
