@@ -63,6 +63,17 @@ class Cell:
         if self.has_bot:
             self.__win.draw_line(Line(Point(self.__x1,self.__y2),Point(self.__x2,self.__y2)))
 
+    def get_center(self):
+        return Point((self.__x1+self.__x2)//2,(self.__y1+self.__y2)//2)
+
+    def draw_move(self, to_cell, undo=False):
+        start = self.get_center()
+        end = to_cell.get_center()
+        if undo:
+            self.__win.draw_line(Line(start,end), "gray")
+        else:
+            self.__win.draw_line(Line(start,end), "red")
+
 def main():
     win = Window(800, 600)
     testbed(win)
@@ -81,5 +92,8 @@ def testbed(win):
     cell3.has_left = False
     cell2.draw()
     cell3.draw()
+    cell1.draw_move(cell2)
+    cell2.draw_move(cell3,True)
+    cell3.draw_move(cell1)
 
 main()
