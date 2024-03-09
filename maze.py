@@ -117,13 +117,43 @@ class Maze:
         elif i == len(self._cells)-1:
             adjacent.append((i-1,j,"l"))
         else:
-            adjacent.append((i-1,j,"l"))
             adjacent.append((i+1,j,"r"))
+            adjacent.append((i-1,j,"l"))
         if j == 0:
             adjacent.append((i,j+1,"d"))
         elif j == len(self._cells[i])-1:
             adjacent.append((i,j-1,"u"))
         else:
-            adjacent.append((i,j-1,"u"))
             adjacent.append((i,j+1,"d"))
+            adjacent.append((i,j-1,"u"))
         return adjacent
+    
+    def _solver_r(self,i,j):
+        self._animate()
+        current = self._cells[i][j]
+        current.visited = True
+        if i == self.num_cols-1 and j == self.num_rows-1:
+            return True
+        for cell in self._get_adjacent(i,j):
+            next_cell = self._cells[cell[0]][cell[1]]
+            if cell[2] == "r" and not current.has_right and not next_cell.visited:
+                current.draw_move(next_cell)
+                if self._solver_r(cell[0],cell[1]):
+                    return True
+                current.draw_move(next_cell,undo=True)
+            elif cell[2] == "d" and not current.has_bot and not next_cell.visited:
+                current.draw_move(next_cell)
+                if self._solver_r(cell[0],cell[1]):
+                    return True
+                current.draw_move(next_cell,undo=True)
+            elif cell[2] == "l" and not current.has_left and not next_cell.visited:
+                current.draw_move(next_cell)
+                if self._solver_r(cell[0],cell[1]):
+                    return True
+                current.draw_move(next_cell,undo=True)
+            elif cell[2] == "u" and not current.has_top and not next_cell.visited:
+                current.draw_move(next_cell)
+                if self._solver_r(cell[0],cell[1]):
+                    return True
+                current.draw_move(next_cell,undo=True)
+        return False

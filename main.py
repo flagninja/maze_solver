@@ -24,4 +24,5 @@ def testbed(win):
     cell2.draw_move(cell3,True)
     cell3.draw_move(cell1) """
     maze = Maze(10,10,20,20,20,20,win=win)
+    maze._solver_r(0,0)
 main()
